@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: webstore-virtualservice
+  namespace: jhipster
+spec:
+  hosts:
+    - webstore
+  http:
+    - route:
+        - destination:
+            host: webstore
+            subset: "v1"
+          weight: 100
+      retries:
+        attempts: 3
+        perTryTimeout: 2s

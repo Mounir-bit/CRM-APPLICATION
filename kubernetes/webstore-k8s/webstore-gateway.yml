@@ -1,0 +1,44 @@
+# This configuration uses 'http' and is not recommended for production use.
+# Refer https://istio.io/latest/docs/reference/config/networking/gateway/ for a more secure 'https' config
+# using certificates and prefer that for production use
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: webstore-gateway
+  namespace: jhipster
+  labels:
+    gateway: webstore-gateway
+    istio: ingressgateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - webstore.jhipster.146.148.30.85.nip.io
+    - port:
+        number: 80
+        name: http2
+        protocol: HTTP2
+      hosts:
+        - webstore.jhipster.146.148.30.85.nip.io
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: webstore-gw-virtualservice
+  namespace: jhipster
+  labels:
+    service: webstore-gw-virtualservice
+spec:
+  hosts:
+    - webstore.jhipster.146.148.30.85.nip.io
+  gateways:
+    - webstore-gateway
+  http:
+    - route:
+        - destination:
+            host: webstore

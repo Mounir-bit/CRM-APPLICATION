@@ -1,0 +1,18 @@
+apiVersion: skaffold/v1
+kind: Config
+build:
+  artifacts:
+    - image: repo/orderservice
+      context: ../orderService
+      jib: {}
+    - image: repo/storeservice
+      context: ../storeService
+      jib: {}
+    - image: repo/webstore
+      context: ../webStore
+      jib: {}
+  tagPolicy:
+    envTemplate:
+      template: "{{.IMAGE_NAME}}:latest"
+deploy:
+  kustomize: {}

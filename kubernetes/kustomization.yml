@@ -1,0 +1,85 @@
+commonLabels:
+  app.kubernetes.io/genereted-by: JHipster
+
+namespace: jhipster
+
+resources:
+  - namespace.yml
+  # Individual apps
+  - orderservice-k8s/orderservice-deployment.yml
+  - orderservice-k8s/orderservice-service.yml
+  - orderservice-k8s/orderservice-postgresql.yml
+  - orderservice-k8s/orderservice-elasticsearch.yml
+  - orderservice-k8s/orderservice-destination-rule.yml
+  - orderservice-k8s/orderservice-virtual-service.yml
+  - storeservice-k8s/storeservice-deployment.yml
+  - storeservice-k8s/storeservice-service.yml
+  - storeservice-k8s/storeservice-postgresql.yml
+  - storeservice-k8s/storeservice-elasticsearch.yml
+  - storeservice-k8s/storeservice-destination-rule.yml
+  - storeservice-k8s/storeservice-virtual-service.yml
+  - webstore-k8s/webstore-deployment.yml
+  - webstore-k8s/webstore-service.yml
+  - webstore-k8s/webstore-postgresql.yml
+  - webstore-k8s/webstore-elasticsearch.yml
+  - webstore-k8s/webstore-gateway.yml
+  - webstore-k8s/webstore-destination-rule.yml
+  - webstore-k8s/webstore-virtual-service.yml
+  # messagebroker
+  - messagebroker-k8s/kafka.yml
+  # service discovery eureka/consul
+  - registry-k8s/jhipster-registry.yml
+  - registry-k8s/application-configmap.yml
+  # istio
+  - istio-k8s/grafana-gateway.yml
+  - istio-k8s/zipkin-gateway.yml
+  - istio-k8s/kiali-gateway.yml
+
+patchesJson6902:
+  - target:
+      version: v1
+      kind: Namespace
+      name: jhipster
+    path: patch-k8s/istio-label.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      kind: Gateway
+      name: grafana-observability-gateway
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      name: grafana-gw-virtualservice
+      kind: VirtualService
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      kind: Gateway
+      name: kiali-observability-gateway
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      name: kiali-gw-virtualservice
+      kind: VirtualService
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      kind: Gateway
+      name: zipkin-observability-gateway
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
+  - target:
+      group: networking.istio.io
+      version: v1alpha3
+      name: zipkin-gw-virtualservice
+      kind: VirtualService
+      namespace: jhipster
+    path: patch-k8s/istio-namespace.yml
